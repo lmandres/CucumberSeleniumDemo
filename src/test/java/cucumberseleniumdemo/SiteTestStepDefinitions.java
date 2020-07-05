@@ -13,18 +13,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.WebElement;
 
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Assert;
 
 import java.time.Duration;
+import java.util.Iterator;
+import java.util.Set;
+
 
 public class SiteTestStepDefinitions {
 
     Context context = null;
-
-    String username = null;
-    String password = null;
-    String enteredPassword = null;
 
     Alert alert = null;
 
@@ -34,12 +32,19 @@ public class SiteTestStepDefinitions {
 
     @Given("the user's username is {string}")
     public void the_user_s_username_is(String username) {
-        this.username = username;
     }
 
     @Given("the user's password is {string}")
     public void the_user_s_password_is(String password) {
-        this.password = password;
+    }
+
+    @Given("the user enters {string} as their password")
+    public void the_user_enters_as_their_password(String enteredPassword) {
+    }
+
+    @Given("{string} does not equal {string}")
+    public void does_not_equal(String firstString, String secondString) {
+        Assert.assertNotEquals(firstString, secondString);
     }
 
     @When("the user browses to the web page at {string}")
@@ -47,23 +52,22 @@ public class SiteTestStepDefinitions {
         this.context.webDriver.get(webSiteAddress);
     }
 
-    @When("the user is asked to log on")
-    public void the_user_is_asked_to_log_on() {
-        this.alert = this.context.webDriverWait.until(ExpectedConditions.alertIsPresent());
+    @Then("the web page should allow access")
+    public void the_web_page_should_allow_access() {
     }
 
-    @When("the user enters their username")
-    public void the_user_enters_their_username() {
-        this.alert.sendKeys(this.username + Keys.TAB);
+    @Then("the web page should ask the user to sign in")
+    public void the_web_page_should_ask_the_user_to_sign_in() {
     }
 
-    @When("the user enters their password")
-    public void the_user_enters_their_password() {
-        this.alert.sendKeys(this.password);
+    @Then("the user sees {string}")
+    public void the_user_sees(String string) {
+        WebElement webElement = this.context.webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[text()='" + string + "']")));
+        Assert.assertEquals(webElement.getText(), string);
     }
 
-    @When("the user clicks the accept button")
-    public void the_user_clicks_the_accept_button() {
-        this.alert.accept();
+    @Then("the user sees a blank page")
+    public void the_user_sees_a_blank_page() {
+        Assert.assertEquals(this.context.webDriver.getPageSource(), "<html><head></head><body></body></html>");
     }
 }
