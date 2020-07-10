@@ -63,11 +63,11 @@ public class SiteTestStepDefinitions {
     @Then("the user sees {string}")
     public void the_user_sees(String string) {
         WebElement webElement = this.context.webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[text()='" + string + "']")));
-        Assert.assertEquals(webElement.getText(), string);
+        Assert.assertEquals(string, webElement.getText());
     }
 
     @Then("the user sees a blank page")
     public void the_user_sees_a_blank_page() {
-        Assert.assertEquals(this.context.webDriver.getPageSource(), "<html><head></head><body></body></html>");
+        Assert.assertEquals("<html><head></head><body></body></html>", this.context.webDriver.getPageSource());
     }
 }
