@@ -23,7 +23,6 @@ import java.util.Set;
 public class SiteTestStepDefinitions {
 
     Context context = null;
-
     Alert alert = null;
 
     public SiteTestStepDefinitions(Context context) {
@@ -52,22 +51,23 @@ public class SiteTestStepDefinitions {
         this.context.webDriver.get(webSiteAddress);
     }
 
-    @Then("the web page should allow access")
-    public void the_web_page_should_allow_access() {
+    @When("the web page asks the user to sign in")
+    public void the_web_page_should_ask_the_user_to_sign_in() {
+        this.alert = this.context.webDriverWait.until(ExpectedConditions.alertIsPresent());
     }
 
-    @Then("the web page should ask the user to sign in")
-    public void the_web_page_should_ask_the_user_to_sign_in() {
+    @When("the user cancels out of the login box")
+    public void the_user_cancels_out_of_the_login_box() {
+        this.alert.dismiss();
+    }
+
+    @Then("the web page should allow access")
+    public void the_web_page_should_allow_access() {
     }
 
     @Then("the user sees {string}")
     public void the_user_sees(String string) {
         WebElement webElement = this.context.webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[text()='" + string + "']")));
         Assert.assertEquals(string, webElement.getText());
-    }
-
-    @Then("the user sees a blank page")
-    public void the_user_sees_a_blank_page() {
-        Assert.assertEquals("<html><head></head><body></body></html>", this.context.webDriver.getPageSource());
     }
 }

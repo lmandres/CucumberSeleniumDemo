@@ -11,7 +11,7 @@ Feature: Test Web Page
 
     Scenarios:
         | username | password | webSiteAddress |
-        | admin | admin | localhost:8050 |
+        | admin | admin | localhost:5000 |
 
     Scenario Outline: User with access enters wrong password
         Given the user's username is "<username>"
@@ -19,9 +19,8 @@ Feature: Test Web Page
         And the user enters "<wrongPassword>" as their password
         And "<password>" does not equal "<wrongPassword>"
         When the user browses to the web page at "http://<username>:<wrongPassword>@<webSiteAddress>"
-        Then the web page should ask the user to sign in
-        And the user sees a blank page
+        Then the user sees "Login unauthorized."
 
     Scenarios:
         | username | password | webSiteAddress | wrongPassword |
-        | admin | admin | localhost:8050 | chicken |
+        | admin | admin | localhost:5000 | chicken |

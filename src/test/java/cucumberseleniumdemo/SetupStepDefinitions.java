@@ -24,8 +24,12 @@ public class SetupStepDefinitions {
     @Before
     public void create_and_set_up_selenium_webdriver() {
 
+        System.setProperty("webdriver.chrome.driver", "/mnt/c/Users/Leo Andres/develop/testdir/chromedriver");
+
         ChromeOptions opts = new ChromeOptions();
 
+        opts.addArguments("--headless");
+        opts.addArguments("--incognito");
         opts.addArguments("--no-sandbox");
 
         this.context.webDriver = new ChromeDriver(opts);
